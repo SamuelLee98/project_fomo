@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -37,16 +38,51 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return [spring2019CareerFairEvent, facebookCodingWorkshopEvent]
     }()
     
-    func fetchEvents() {
-        let url = NSURL(string: <#T##String#>)
-        URLSession.sharedSession().dataTaskWithURL(url: https://drive.google.com/a/usc.edu/uc?id=1218_ipZJAQHcZaaLMjsUWKEoL0t50LV6&export=download) //feed application url to fetch json
-    }
+//    func fetchEvents() {
+//        let url = NSURL(string: "http://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+//        URLSession.shared.dataTask(with: url! as URL) {
+//            (data, response, error) in
+//
+//            if error != nil {
+//                print(error)
+//                return
+//            }
+//
+//            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//            print(str)
+//
+//        }.resume()
+//    }
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        fetchEvents()
+        //fetchEvents()
+        
+        let API_URL = "http://perfectcareerbuilder.herokuapp.com/api/linkedin?fbclid=IwAR3-I9z7nRjNVbGJ65hhPD4r89P0gfcmt3cdevGzlNn4ahg8LnTm1m0jyo0"
+       
+        var heroes = [Event]()
+        
+        Alamofire.request(API_URL).responseJSON { response in
+            let json = response.data
+            
+            do{
+                //created the json decoder
+                let decoder = JSONDecoder()
+                
+                //using the array to put values
+                self.heroes = try decoder.decode([Hero].self, from: json!)
+                
+                //printing all the hero names
+                for hero in self.heroes{
+                    print(hero.name!)
+                }
+                
+            }catch let err{
+                print(err)
+            }
+        }
         
         navigationItem.title = "Home"
         navigationController?.navigationBar.isTranslucent = false
