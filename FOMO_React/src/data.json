@@ -1,0 +1,38 @@
+[
+    {
+        "id": "0",
+        "title": "Amazon Technology Information Session for undergraduate students", 
+        "time": "10:30", 
+        "date": "2019/01/10", 
+        "address": "Grace Ford Salvatori Hall of Letters, Arts and Sciences, 3601 Watt Way", 
+        "location": "GFS 111", 
+        "descript": "Technology event for USC students",
+        "thumbNailImageName": "img1",
+        "lat": 34.021488,
+        "lng": -118.287645
+    }, 
+    {
+        "id": "1",
+        "title": "Beyond Limits Info Session hosted by USC Women in Computing", 
+        "time": "11:30", 
+        "date": "2019/01/11", 
+        "address": "Montgomery Ross Fisher Bldg., 669 W. 34th St.", 
+        "location": "MRF 340", 
+        "descript": "Technology event for USC students",
+        "thumbNailImageName": "img2",
+        "lat": 34.022475,
+        "lng": -118.282071
+    },
+    {
+        "id": "2",
+        "title": "The Aerospace Corporation Information Session", 
+        "time": "12:30", 
+        "date": "2019/01/12", 
+        "address": "Seeley G. Mudd Bldg., 3620 McClintock Ave.", 
+        "location": "SGM 101", 
+        "descript": "Technology event for USC students",
+        "thumbNailImageName": "img3",
+        "lat": 34.021307,
+        "lng": -118.288648
+    }
+]
