@@ -7,83 +7,77 @@
 //
 
 import UIKit
-//import Alamofire
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var events: [Event] = {
+//    var events: [Event] = {
+//
+//        var fomoChannel = Channel ()
+//        fomoChannel.name = "FOMO"
+//        fomoChannel.profileImageName = "fomo_logo"
+//
+//        var viterbiChannel = Channel()
+//        viterbiChannel.name = "Viterbi"
+//        viterbiChannel.profileImageName = "USCViterbi"
+//
+//
+//        var spring2019CareerFairEvent = Event()
+//        spring2019CareerFairEvent.title = "Viterbi Spring 2019 Career Fair"
+//        spring2019CareerFairEvent.thumbNailImageName = "viterbi_careerfair"
+//        spring2019CareerFairEvent.channel = viterbiChannel
+//        spring2019CareerFairEvent.date = "Jan 25th, 2019"
+//
+//        var facebookCodingWorkshopEvent = Event()
+//        facebookCodingWorkshopEvent.title = "Facebook - Coding Workshop"
+//        facebookCodingWorkshopEvent.thumbNailImageName = "facebook_logo"
+//        facebookCodingWorkshopEvent.channel = fomoChannel
+//        facebookCodingWorkshopEvent.date = "Jan 19th, 2019"
+//
         
-        var fomoChannel = Channel ()
-        fomoChannel.name = "FOMO"
-        fomoChannel.profileImageName = "fomo_logo"
-        
-        var viterbiChannel = Channel()
-        viterbiChannel.name = "Viterbi"
-        viterbiChannel.profileImageName = "USCViterbi"
-        
-        
-        var spring2019CareerFairEvent = Event()
-        spring2019CareerFairEvent.title = "Viterbi Spring 2019 Career Fair"
-        spring2019CareerFairEvent.thumbNailImageName = "viterbi_careerfair"
-        spring2019CareerFairEvent.channel = viterbiChannel
-        spring2019CareerFairEvent.date = "Jan 25th, 2019"
-        
-        var facebookCodingWorkshopEvent = Event()
-        facebookCodingWorkshopEvent.title = "Facebook - Coding Workshop"
-        facebookCodingWorkshopEvent.thumbNailImageName = "facebook_logo"
-        facebookCodingWorkshopEvent.channel = fomoChannel
-        facebookCodingWorkshopEvent.date = "Jan 19th, 2019"
-        
-        
-        return [spring2019CareerFairEvent, facebookCodingWorkshopEvent]
-    }()
+//        return [spring2019CareerFairEvent, facebookCodingWorkshopEvent]
+//    }()
     
-//    func fetchEvents() {
-//        let url = NSURL(string: "http://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
-//        URLSession.shared.dataTask(with: url! as URL) {
-//            (data, response, error) in
-//
-//            if error != nil {
-//                print(error)
-//                return
-//            }
-//
-//            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-//            print(str)
-//
-//        }.resume()
-//    }
+    var events: [Event]?
+    
+    func fetchEvents() {
+        let url = NSURL(string: "http://localhost:8080/api/test")
+        URLSession.shared.dataTask(with: url! as URL) { (data, response, error) in
+            
+            if error != nil {
+                print(error!)
+                return
+            }
+            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print(str!)
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                self.events = [Event]()
+                
+                for dictionary in json as! [[String:AnyObject]]{
+                    let event = Event()
+                    event.title = dictionary["title"] as? String
+                    event.thumbNailImageName = dictionary["thumbNailImageName"] as? String
+                    
+                    self.events?.append(event)
+                }
+                self.collectionView?.reloadData()
+               
+            } catch let jsonError {
+                print(jsonError)
+            }
+            
+        }.resume()
+    }
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        //fetchEvents()
+        fetchEvents()
         
-//        let API_URL = "http://perfectcareerbuilder.herokuapp.com/api/linkedin?fbclid=IwAR3-I9z7nRjNVbGJ65hhPD4r89P0gfcmt3cdevGzlNn4ahg8LnTm1m0jyo0"
-//
-//        var heroes = [Event]()
-//
-//        Alamofire.request(API_URL).responseJSON { response in
-//            let json = response.data
-//
-//            do{
-//                //created the json decoder
-//                let decoder = JSONDecoder()
-//
-//                //using the array to put values
-//                self.heroes = try decoder.decode([Hero].self, from: json!)
-//
-//                //printing all the hero names
-//                for hero in self.heroes{
-//                    print(hero.name!)
-//                }
-//
-//            }catch let err{
-//                print(err)
-//            }
-//        }
-//
+
         navigationItem.title = "Home"
         navigationController?.navigationBar.isTranslucent = false
         
@@ -128,13 +122,14 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return events.count
+            return events?.count ?? 0
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! EventCell
-        cell.event = events[indexPath.item]
-    
+        cell.event = events?[indexPath.item]
         return cell
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = (view.frame.width - 16 - 16) * 9/16

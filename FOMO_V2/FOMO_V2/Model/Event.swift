@@ -10,13 +10,19 @@ import UIKit
 
 class Event: NSObject {
     
+    var _id:String?
+    var id: String?
     var title: String?
-    var descript: String?
-    var date: String?
     var time: String?
-    var building: String?
+    var date: String?
     var address: String?
+    var location: String?
+    var descript: String?
     var thumbNailImageName: String?
+    var lat: String?
+    var lng: String?
+
+    
     
     var channel: Channel? 
 }

@@ -28,7 +28,9 @@ class EventCell: BaseCell {
     var event: Event? {
         didSet {
             titleLabel.text = event?.title
-            thumbnailImageView.image = UIImage (named: (event?.thumbNailImageName)!)
+            
+//            setupThumbnailImage() // <--- images from the web
+            thumbnailImageView.image = UIImage (named: (event?.thumbNailImageName)!) //FOR NOW USE THIS. LATER USE THE FUCNTION ABOVE
             
             if let profileImageName = event?.channel?.profileImageName {
                 userProfileImageView.image = UIImage(named: profileImageName)
@@ -53,6 +55,19 @@ class EventCell: BaseCell {
 
         }
     }
+//    func setupThumbnailImage () {
+//        if let thumbnailImageUrl  = event?.thumbNailImageName {
+//            let url = NSURL(string: thumbnailImageUrl)
+//            URLSession.shared.dataTask(with: url! as URL, completionHandler: {(data, responses, error) in
+//                if error != nil {
+//                    print(error!)
+//                    return
+//                }
+//                self.thumbnailImageView.image = UIImage(data: data!)
+//            }).resume()
+//            print(thumbnailImageUrl)
+//        }
+//    }
     
     let thumbnailImageView: UIImageView = {
         let imageView  = UIImageView()
