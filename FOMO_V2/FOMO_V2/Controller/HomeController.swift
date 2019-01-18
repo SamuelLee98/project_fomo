@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Alamofire
+//import Alamofire
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -60,30 +60,30 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         //fetchEvents()
         
-        let API_URL = "http://perfectcareerbuilder.herokuapp.com/api/linkedin?fbclid=IwAR3-I9z7nRjNVbGJ65hhPD4r89P0gfcmt3cdevGzlNn4ahg8LnTm1m0jyo0"
-       
-        var heroes = [Event]()
-        
-        Alamofire.request(API_URL).responseJSON { response in
-            let json = response.data
-            
-            do{
-                //created the json decoder
-                let decoder = JSONDecoder()
-                
-                //using the array to put values
-                self.heroes = try decoder.decode([Hero].self, from: json!)
-                
-                //printing all the hero names
-                for hero in self.heroes{
-                    print(hero.name!)
-                }
-                
-            }catch let err{
-                print(err)
-            }
-        }
-        
+//        let API_URL = "http://perfectcareerbuilder.herokuapp.com/api/linkedin?fbclid=IwAR3-I9z7nRjNVbGJ65hhPD4r89P0gfcmt3cdevGzlNn4ahg8LnTm1m0jyo0"
+//
+//        var heroes = [Event]()
+//
+//        Alamofire.request(API_URL).responseJSON { response in
+//            let json = response.data
+//
+//            do{
+//                //created the json decoder
+//                let decoder = JSONDecoder()
+//
+//                //using the array to put values
+//                self.heroes = try decoder.decode([Hero].self, from: json!)
+//
+//                //printing all the hero names
+//                for hero in self.heroes{
+//                    print(hero.name!)
+//                }
+//
+//            }catch let err{
+//                print(err)
+//            }
+//        }
+//
         navigationItem.title = "Home"
         navigationController?.navigationBar.isTranslucent = false
         
