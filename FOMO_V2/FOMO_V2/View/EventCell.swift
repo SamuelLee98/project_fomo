@@ -63,6 +63,11 @@ class EventCell: BaseCell {
 //                    print(error!)
 //                    return
 //                }
+//     
+//
+////                dispatch_async(dispatch_get_main_queue(), {
+////                      self.thumbnailImageView.image = UIImage(data: data!)
+////                })
 //                self.thumbnailImageView.image = UIImage(data: data!)
 //            }).resume()
 //            print(thumbnailImageUrl)
