@@ -23,7 +23,6 @@ class Event: NSObject {
     var lng: String?
 
     
-    
     var channel: Channel? 
 }
 

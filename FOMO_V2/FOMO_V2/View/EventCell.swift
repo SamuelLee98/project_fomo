@@ -29,10 +29,12 @@ class EventCell: BaseCell {
         didSet {
             titleLabel.text = event?.title
             
-//            setupThumbnailImage() // <--- images from the web
+//            setupThumbnailImage() // <--- thumbnail images from the web
+//            setupProfileImage() // <--- profile images from the web
+            
             thumbnailImageView.image = UIImage (named: (event?.thumbNailImageName)!) //FOR NOW USE THIS. LATER USE THE FUCNTION ABOVE
             
-            if let profileImageName = event?.channel?.profileImageName {
+            if let profileImageName = event?.channel?.profileImageName { //FOR NOW USE THIS. LATER USE THE FUCNTION ABOVE
                 userProfileImageView.image = UIImage(named: profileImageName)
                 
             }
@@ -55,8 +57,28 @@ class EventCell: BaseCell {
 
         }
     }
+//    func setupProfileImage() {
+//        if let profileImageUrl  = event?.channel?.profileImageName {
+// userProfileImageView.loadImageUsingUrlString(profileImageUrl) <-- FUNCTION IMPLEMENTED IN EXTENSIONS UNDER HELPERS. CAN DELETE EVERY THING BELOW ONCE IMPLEMENTED
+//            let url = NSURL(string: profileImageUrl)
+//            URLSession.shared.dataTask(with: url! as URL, completionHandler: {(data, responses, error) in
+//                if error != nil {
+//                    print(error!)
+//                    return
+//                }
+//
+//
+//                dispatch_async(dispatch_get_main_queue(), {
+//                      self.thumbnailImageView.image = UIImage(data: data!)
+//                })
+//                self.userProfileImageView.image = UIImage(data: data!)
+//            }).resume()
+//
+//        }
+//    }
 //    func setupThumbnailImage () {
 //        if let thumbnailImageUrl  = event?.thumbNailImageName {
+    // thumbnailImageView.loadImageUsingUrlString(profileImageUrl) <-- FUNCTION IMPLEMENTED IN EXTENSIONS UNDER HELPERS. CAN DELETE EVERY THING BELOW ONCE IMPLEMENTED
 //            let url = NSURL(string: thumbnailImageUrl)
 //            URLSession.shared.dataTask(with: url! as URL, completionHandler: {(data, responses, error) in
 //                if error != nil {
@@ -70,7 +92,7 @@ class EventCell: BaseCell {
 ////                })
 //                self.thumbnailImageView.image = UIImage(data: data!)
 //            }).resume()
-//            print(thumbnailImageUrl)
+//           // print(thumbnailImageUrl)
 //        }
 //    }
     
@@ -86,6 +108,7 @@ class EventCell: BaseCell {
         imageView.image = UIImage(named: "USCViterbi")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     

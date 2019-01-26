@@ -38,3 +38,21 @@ extension UIImage {
         
         return newImage!
     } }
+
+//extension UIImageView {
+//    func loadImageUsingUrlString (urlString: String) {
+//
+//        let url = NSURL(string: urlString)
+//        URLSession.shared.dataTask(with: url! as URL, completionHandler: {(data, responses, error) in
+//            if error != nil {
+//                print(error!)
+//                return
+//            }
+//            dispatch_async(dispatch_get_main_queue()), {
+//                  self.image = UIImage(data: data!)
+//            })
+//
+//        }).resume()
+//       // print(thumbnailImageUrl)
+//    }
+//}

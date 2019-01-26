@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  FOMO_V2
 //
-//  Created by Samuel Kyu-Seo Lee on 12/20/18.
+//  Created by FOMO on 12/20/18.
 //  Copyright © 2018 Samuel Kyu-Seo Lee. All rights reserved.
 //
 
@@ -59,6 +59,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     let event = Event()
                     event.title = dictionary["title"] as? String
                     event.thumbNailImageName = dictionary["thumbNailImageName"] as? String
+                    
+//                    let channelDictionary = dictionary["channel"] as! [String:AnyObject] //<-- THIS part is not inclucded in the json yet
+//                    let channel = Channel()
+//                    channel.name = channelDictionary["name"] as? String
+//                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
+//                    event.channel = channel
                     
                     self.events?.append(event)
                 }
