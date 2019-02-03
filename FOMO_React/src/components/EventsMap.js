@@ -7,9 +7,9 @@ const EventsMap = withScriptjs(withGoogleMap((props) => {
   return (
     <GoogleMap
       defaultZoom={16}
-      center={{ lat: 34.021177, lng: -118.284688 }}
+      center={props.mapCenter}
     >
-      <EventInfoMap events={props.events} />
+      <EventInfoMap {...props} />
     </GoogleMap>
   );
 }

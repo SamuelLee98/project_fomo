@@ -5811,6 +5811,11 @@ react-google-maps@^9.4.5:
     scriptjs "^2.5.8"
     warning "^3.0.0"
 
+react-infinite-scroll-component@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-4.3.0.tgz#e425b252d96f8dd4fe5e69e5782b632dbd37b5ad"
+  integrity sha512-ccrhr3Fg969fuMNDxkRYjopNPRdpnfhPeKXpjQX+Ii6KumC9O1cB6yt2fUJaDyiMF/Jnrf4Kkjg3HGh5Y0jV8Q==
+
 react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"

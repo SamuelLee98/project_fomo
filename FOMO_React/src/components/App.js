@@ -1,72 +1,237 @@
 import React from 'react';
+import axios from "axios";
+
+import SideBar from "./SideBar";
 import MapContainer from './MapContainer';
 
-class App extends React.Component {
-  state = {
 
-  };
-  componentDidMount() {
-    // timers, listeners
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      events: null,
+      isLoading: true,
+      isOpen: false,
+      infoIndex: null,
+      mapCenter: { lat: 34.022453, lng: -118.285067 },
+      currPage: 0,
+      hasPrev: false,
+      hasNext: true,
+    };
+
+    // retrieve first 3 posts info from database
+    axios
+      .get(`/api/test/1}`)
+      .then(res => {
+        if (res.data.error) {
+          this.setState({
+            isLoading: false
+          })
+          console.error(res.data.message);
+        } else {
+          this.setState({
+            currPage: this.state.currPage + 1,
+            events: res.data.message,
+            isOpen: false,
+            infoIndex: null,
+          });
+          axios
+            .get(`/api/test/${this.state.currPage + 1}`)
+            .then(res => {
+              if (res.data.error) {
+                console.log(error);
+              }
+              else if (res.data.message.length != 0) {
+                this.setState({
+                  hasNext: true
+                });
+              }
+              else {
+                this.setState({
+                  hasNext: false
+                })
+              }
+              this.setState({
+                isLoading: false
+              });
+            });
+        }
+      })
   }
-  componentWillUnmount() {
-    // clean timers, listeners
+
+  handleToggleOpen = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
   }
+
+  showInfo = (index) => {
+    this.setState({
+      isOpen: this.state.infoIndex !== index || !this.state.isOpen,
+      infoIndex: index,
+    });
+  }
+
+  onMarkerClick = (index) => {
+    const divToScrollTo = document.getElementById(index);
+    if (divToScrollTo) {
+      divToScrollTo.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
+
+  onNext = () => {
+    this.setState({ isLoading: true });
+
+    // Get data for next page
+    axios
+      .get(`/api/test/${this.state.currPage + 1}`)
+      .then(res => {
+        if (res.data.error) {
+          this.setState({
+            isLoading: false
+          })
+          console.error(res.data.message);
+        } else {
+          this.setState({
+            currPage: this.state.currPage + 1,
+            events: res.data.message,
+            isOpen: false,
+            infoIndex: null,
+          });
+          axios
+            .get(`/api/test/${this.state.currPage + 1}`)
+            .then(res => {
+              console.log(this.state.currPage + 1);
+              if (res.data.error) {
+                console.log(error);
+              }
+              else if (res.data.message.length != 0) {
+                this.setState({
+                  hasNext: true
+                });
+              }
+              else {
+                this.setState({
+                  hasNext: false
+                })
+              }
+
+              this.setState({
+                hasPrev: this.state.currPage == 1 ? false : true,
+                isLoading: false
+              });
+            });
+        }
+      })
+  }
+
+  onPrev = () => {
+    this.setState({ isLoading: true });
+
+    axios
+      .get(`/api/test/${this.state.currPage - 1}`)
+      .then(res => {
+        if (res.data.error) {
+          this.setState({
+            isLoading: false
+          })
+          console.error(res.data.message);
+        } else {
+          this.setState({
+            currPage: this.state.currPage - 1,
+            events: res.data.message,
+            isOpen: false,
+            infoIndex: null,
+          });
+          if (this.state.currPage == 1) {
+            this.setState({
+              isLoading: false,
+              hasPrev: false,
+              hasNext: true,
+            });
+          }
+          else {
+            axios
+              .get(`/api/test/${this.state.currPage - 1}`)
+              .then(res => {
+                if (res.data.error) {
+                  console.log(error);
+                }
+                else if (res.data.message.length != 0) {
+                  this.setState({
+                    hasPrev: true
+                  });
+                }
+                else {
+                  this.setState({
+                    hasPrev: false
+                  })
+                }
+                this.setState({
+                  hasNext: true,
+                  isLoading: false
+                });
+              });
+          }
+
+        }
+      })
+  }
+
   render() {
-    return (
-      <div className="wrapper" style={{height: "100vh"}}>
-        {/* Sidebar  */}
-        <nav id="sidebar">
-          <div className="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <div class="container-fluid" style={{ minHeight: "100vh" }}>
+          <div class="spinner-border"
+            style={{
+              width: "3rem",
+              height: "3rem",
+              position: "absolute",
+              display: "block",
+              top: "50%",
+              left: "50%"
+            }}
+            role="status">
+            <span class="sr-only">Loading...</span>
           </div>
-          <ul className="list-unstyled components">
-            <p>Dummy Heading</p>
-            <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Portfolio</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-          </ul>
-          <ul className="list-unstyled CTAs">
-            <li>
-              <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" className="download">Download source</a>
-            </li>
-            <li>
-              <a href="https://bootstrapious.com/p/bootstrap-sidebar" className="article">Back to article</a>
-            </li>
-          </ul>
-        </nav>
-        {/* Page Content  */}
-        <div id="content">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
-              <button type="button" id="sidebarCollapse" className="btn btn-info">
-                <i className="fas fa-align-left" />
-                <span>Toggle Sidebar</span>
-              </button>
-              <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i className="fas fa-align-justify" />
-              </button>
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="nav navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">About Us</a>
-                  </li>
-                </ul>
+        </div>
+      );
+    }
+
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-4 responsive-wrap" >
+            <SideBar
+              {...this.state}
+              handleToggleOpen={this.handleToggleOpen}
+              showInfo={this.showInfo}
+              onMarkerClick={this.onMarkerClick}
+              onNext={this.onNext}
+              onPrev={this.onPrev}
+            />
+          </div>
+          <div className="col-md-8 responsive-wrap map-wrap">
+            <div className="map-fix">
+              <div id="map">
+                <MapContainer
+                  {...this.state}
+                  handleToggleOpen={this.handleToggleOpen}
+                  showInfo={this.showInfo}
+                  mapCenter={this.state.mapCenter}
+                  onMarkerClick={this.onMarkerClick}
+                />
               </div>
             </div>
-          </nav>
-          <div>
-            <MapContainer events={window.initialData} />
           </div>
         </div>
-        </div>
-        );
-      }
-    }
-    
+      </div>
+    )
+  }
+}
+
+
 export default App;
